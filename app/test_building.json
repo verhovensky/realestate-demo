@@ -1,0 +1,12 @@
+[
+   {
+      "model":"buildings.building",
+      "pk":1,
+      "fields":{
+         "name":"ЖК Солнцево",
+         "year":2019,
+         "quarter":3,
+         "builder":"ГК Самолет"
+      }
+   }
+]
