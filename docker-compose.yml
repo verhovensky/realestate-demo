@@ -6,15 +6,15 @@ volumes:
 
 services:
   db:
-    container_name: app-db
+    container_name: db
     build:
       context: ./mysql
     env_file:
       - ./app/.env
     volumes:
-      - ./mysql_data:/var/lib/mysql:rw
+      - mysql_data:/var/lib/mysql:rw
     ports:
-      - "3306:3306"
+      - "33060:3306"
     restart: always
 
   app:
@@ -23,7 +23,7 @@ services:
     container_name: app
     volumes:
       - ./app/:/app/
-      - ./app/static:/app/static
+      - static:/app/static
     ports:
       - "8000:8000"
     depends_on:
@@ -33,11 +33,11 @@ services:
   nginx:
     build:
       context: ./nginx
-    container_name: app-nginx
+    container_name: nginx
     depends_on:
       - app
     ports:
       - "80:7000"
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - ./app/static:/app/static
+      - static:/app/static
