@@ -10,7 +10,7 @@ services:
     build:
       context: ./mysql
     env_file:
-      - app/.env
+      - ./app/.env
     volumes:
       - ./mysql_data:/var/lib/mysql:rw
     ports:
@@ -23,7 +23,7 @@ services:
     container_name: app
     volumes:
       - ./app/:/app/
-      - static:/app/static
+      - ./app/static:/app/static
     ports:
       - "8000:8000"
     depends_on:
@@ -40,3 +40,4 @@ services:
       - "80:7000"
     volumes:
       - ./nginx:/etc/nginx/conf.d
+      - ./app/static:/app/static
