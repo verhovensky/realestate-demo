@@ -1,0 +1,42 @@
+version : '3.8'
+
+volumes:
+  mysql_data:
+  static:
+
+services:
+  db:
+    container_name: app-db
+    build:
+      context: ./mysql
+    env_file:
+      - app/.env
+    volumes:
+      - ./mysql_data:/var/lib/mysql:rw
+    ports:
+      - "3306:3306"
+    restart: always
+
+  app:
+    build:
+      context: ./app
+    container_name: app
+    volumes:
+      - ./app/:/app/
+      - static:/app/static
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    command: run_django
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: app-nginx
+    depends_on:
+      - app
+    ports:
+      - "80:7000"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
